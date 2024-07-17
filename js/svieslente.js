@@ -6,6 +6,7 @@ const plus1bDOM = buttonsDOM[4];
 const plus2bDOM = buttonsDOM[5];
 const plus3bDOM = buttonsDOM[6];
 const clearDOM = buttonsDOM[0];
+const deleteLastDOM = buttonsDOM[7];
 
 const resultaDOM = document.querySelector('.first > div');
 const resultbDOM = document.querySelector('.second > div');
@@ -200,3 +201,54 @@ clearDOM.addEventListener('click', () => {
     resultbDOM.textContent = 0;
     renderTaskList();    
 });
+
+deleteLastDOM.addEventListener('click', () => {
+    scoreData.pop();
+    localStorage.setItem('scores', JSON.stringify(scoreData));
+    renderTaskList();    
+});
+
+
+
+
+
+let nameData1 = [];
+
+const textInputADOM = document.querySelector('.inputA');
+const teamANameDOM = document.querySelector('.aTeam')
+
+textInputADOM.addEventListener('click', e => {
+    e.preventDefault();
+    teamANameDOM.innerHTML = textInputADOM.value;
+    nameData1.push(textInputADOM.value);
+    localStorage.setItem('names1', JSON.stringify(nameData1));
+    nameData1.shift();
+    
+})
+
+const names1Data = localStorage.getItem('names1');
+if (names1Data !== null) {
+    teamANameDOM.innerHTML = JSON.parse(names1Data);
+    renderTaskList();
+}
+
+
+let nameData2 = [];
+
+const textInputBDOM = document.querySelector('.inputB');
+const teamBNameDOM = document.querySelector('.bTeam')
+
+textInputBDOM.addEventListener('click', e => {
+    e.preventDefault();
+    teamBNameDOM.innerHTML = textInputBDOM.value;
+    nameData2.push(textInputBDOM.value);
+    localStorage.setItem('names2', JSON.stringify(nameData2));
+    nameData2.shift();
+    
+})
+
+const names2Data = localStorage.getItem('names2');
+if (localData !== null) {
+    teamBNameDOM.innerHTML = JSON.parse(names2Data);
+    renderTaskList();
+}
