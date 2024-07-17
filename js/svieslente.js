@@ -248,7 +248,7 @@ textInputBDOM.addEventListener('click', e => {
 })
 
 const names2Data = localStorage.getItem('names2');
-if (localData !== null) {
+if (names2Data !== null) {
     teamBNameDOM.innerHTML = JSON.parse(names2Data);
     renderTaskList();
 }
