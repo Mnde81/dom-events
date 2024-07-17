@@ -7,32 +7,87 @@ const plus2bDOM = buttonsDOM[4];
 const plus3bDOM = buttonsDOM[5];
 const resultaDOM = document.querySelector('.first > div');
 const resultbDOM = document.querySelector('.second > div');
+const scoresDOM = document.querySelector('.scores');
+
+
+const teamADOM = document.querySelector('.aTeam');
+const teamBDOM = document.querySelector('.bTeam');
 
 let totalA = 0;
 let totalB = 0;
 let HTML = '';
 let count = 0;
 
+const localData = localStorage.getItem('scores');
+
+let scoreData = [];
+
+if (localData !== null) {
+    scoreData = JSON.parse(localData);
+    renderTaskList();
+}
+
+
+
 function plusOneA() {
     totalA++;
     count++;
-    resultaDOM.textContent = totalA;
-    HTML = `<p># ${count}: <span>A</span> Team scores <span>1</span> point</p> ${HTML}`
-    scoresDOM.innerHTML = HTML;
+    // resultaDOM.textContent = totalA;
+    // HTML = `<p># ${count}: <span>A</span> Team scores <span>1</span> point</p> ${HTML}`
+    // scoresDOM.innerHTML = HTML;
+
+    scoreData.push({ 
+        number: count,      
+        createdAt: Date.now(),
+        team: teamADOM.innerHTML,
+        score: plus1aDOM.innerText,
+        totalA: totalA,
+        totalB: totalB,
+    });
+    localStorage.setItem('scores', JSON.stringify(scoreData));
+    renderTaskList();
+
+    
+
 }
 function plusTwoA() {
     totalA += 2;
     count++;
-    resultaDOM.textContent = totalA;
-    HTML = `<p># ${count}: <span>A</span> Team scores <span>2</span> points</p> ${HTML}`
-    scoresDOM.innerHTML = HTML;
+    // resultaDOM.textContent = totalA;
+    // HTML = `<p># ${count}: <span>A</span> Team scores <span>2</span> points</p> ${HTML}`
+    // scoresDOM.innerHTML = HTML;
+
+    scoreData.push({ 
+        number: count,      
+        createdAt: Date.now(),
+        team: teamADOM.innerHTML,
+        score: plus2aDOM.innerText,
+        totalA: totalA,
+        totalB: totalB,
+    });
+    localStorage.setItem('scores', JSON.stringify(scoreData));
+    renderTaskList();
+
+    
 }
 function plusThreeA() {
     totalA += 3;
     count++;
-    resultaDOM.textContent = totalA;
-    HTML = `<p># ${count}: <span>A</span> Team scores <span>3</span> points</p> ${HTML}`
-    scoresDOM.innerHTML = HTML;
+    // resultaDOM.textContent = totalA;
+    // HTML = `<p># ${count}: <span>A</span> Team scores <span>3</span> points</p> ${HTML}`
+    // scoresDOM.innerHTML = HTML;
+
+    scoreData.push({
+        number: count,        
+        createdAt: Date.now(),
+        team: teamADOM.innerHTML,
+        score: plus3aDOM.innerText,
+        totalA: totalA,
+        totalB: totalB,
+    });
+    localStorage.setItem('scores', JSON.stringify(scoreData));
+    renderTaskList();
+    
 }
 
 plus1aDOM.addEventListener('click', plusOneA);
@@ -43,23 +98,56 @@ plus3aDOM.addEventListener('click', plusThreeA);
 function plusOneB() {
     totalB++;
     count++;
-    resultbDOM.textContent = totalB;
-    HTML = `<p># ${count}: <span>B</span> Team scores <span>1</span> point</p> ${HTML}`
-    scoresDOM.innerHTML = HTML;
+    // resultbDOM.textContent = totalB;
+    // HTML = `<p># ${count}: <span>B</span> Team scores <span>1</span> point</p> ${HTML}`
+    // scoresDOM.innerHTML = HTML;
+
+    scoreData.push({ 
+        number: count,      
+        createdAt: Date.now(),
+        team: teamBDOM.innerHTML,
+        score: plus1bDOM.innerText,
+        totalA: totalA,
+        totalB: totalB,
+    });
+    localStorage.setItem('scores', JSON.stringify(scoreData));
+    renderTaskList();
 }
 function plusTwoB() {
     totalB += 2;
     count++;
-    resultbDOM.textContent = totalB;
-    HTML = `<p># ${count}: <span>B</span> Team scores <span>2</span> points</p> ${HTML}`
-    scoresDOM.innerHTML = HTML;
+    // resultbDOM.textContent = totalB;
+    // HTML = `<p># ${count}: <span>B</span> Team scores <span>2</span> points</p> ${HTML}`
+    // scoresDOM.innerHTML = HTML;
+
+    scoreData.push({ 
+        number: count,      
+        createdAt: Date.now(),
+        team: teamBDOM.innerHTML,
+        score: plus2bDOM.innerText,
+        totalA: totalA,
+        totalB: totalB,
+    });
+    localStorage.setItem('scores', JSON.stringify(scoreData));
+    renderTaskList();
 }
 function plusThreeB() {
     totalB += 3;
     count++;
-    resultbDOM.textContent = totalB;
-    HTML = `<p># ${count}: <span>B</span> Team scores <span>3</span> points</p> ${HTML}`
-    scoresDOM.innerHTML = HTML;
+    // resultbDOM.textContent = totalB;
+    // HTML = `<p># ${count}: <span>B</span> Team scores <span>3</span> points</p> ${HTML}`
+    // scoresDOM.innerHTML = HTML;
+
+    scoreData.push({ 
+        number: count,      
+        createdAt: Date.now(),
+        team: teamBDOM.innerHTML,
+        score: plus3bDOM.innerText,
+        totalA: totalA,
+        totalB: totalB,
+    });
+    localStorage.setItem('scores', JSON.stringify(scoreData));
+    renderTaskList();
 }
 
 plus1bDOM.addEventListener('click', plusOneB);
@@ -68,5 +156,36 @@ plus3bDOM.addEventListener('click', plusThreeB);
 
 
 
-const scoresDOM = document.querySelector('.scores');
 
+
+function renderTaskList() {
+    let HTML = '';
+
+    for (const score of scoreData) {
+        HTML += `<p># ${score.number}: ${formatTime(score.createdAt)} <span>${score.team}</span> scores <span>${score.score}</span> point</p>`;
+        resultaDOM.textContent = score.totalA;
+        resultbDOM.textContent = score.totalB;
+        totalA = score.totalA;
+        totalB = score.totalB;
+        count = score.number;
+    }
+
+    scoresDOM.innerHTML = HTML;
+  
+   
+    
+
+}
+
+
+function formatTime(timeInMs) {
+    const date = new Date(timeInMs);
+    const y = date.getFullYear();
+    const m = (date.getMonth() < 9 ? '0' : '') + (date.getMonth() + 1);
+    const d = (date.getDate() < 10 ? '0' : '') + date.getDate();
+    const h = date.getHours();
+    const mn = (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
+    const s = (date.getSeconds() < 10 ? '0' : '') + date.getSeconds();
+
+    return `${y}-${m}-${d} ${h}:${mn}:${s}`;
+}
