@@ -1,10 +1,12 @@
 const buttonsDOM = document.querySelectorAll('button');
-const plus1aDOM = buttonsDOM[0];
-const plus2aDOM = buttonsDOM[1];
-const plus3aDOM = buttonsDOM[2];
-const plus1bDOM = buttonsDOM[3];
-const plus2bDOM = buttonsDOM[4];
-const plus3bDOM = buttonsDOM[5];
+const plus1aDOM = buttonsDOM[1];
+const plus2aDOM = buttonsDOM[2];
+const plus3aDOM = buttonsDOM[3];
+const plus1bDOM = buttonsDOM[4];
+const plus2bDOM = buttonsDOM[5];
+const plus3bDOM = buttonsDOM[6];
+const clearDOM = buttonsDOM[0];
+
 const resultaDOM = document.querySelector('.first > div');
 const resultbDOM = document.querySelector('.second > div');
 const scoresDOM = document.querySelector('.scores');
@@ -162,19 +164,16 @@ function renderTaskList() {
     let HTML = '';
 
     for (const score of scoreData) {
-        HTML += `<p># ${score.number}: ${formatTime(score.createdAt)} <span>${score.team}</span> scores <span>${score.score}</span> point</p>`;
+        HTML = `<p># ${score.number}: ${formatTime(score.createdAt)} <span>${score.team}</span> scores <span>${score.score}</span> point</p> ${HTML}`;
         resultaDOM.textContent = score.totalA;
         resultbDOM.textContent = score.totalB;
         totalA = score.totalA;
         totalB = score.totalB;
         count = score.number;
-    }
-
-    scoresDOM.innerHTML = HTML;
-  
-   
+        
+    }   
     
-
+    scoresDOM.innerHTML = HTML;
 }
 
 
@@ -189,3 +188,15 @@ function formatTime(timeInMs) {
 
     return `${y}-${m}-${d} ${h}:${mn}:${s}`;
 }
+
+
+clearDOM.addEventListener('click', () => {
+    localStorage.clear('scores');
+    totalA = 0;
+    totalB = 0;
+    count = 0;
+    scoreData = [];
+    resultaDOM.textContent = 0;
+    resultbDOM.textContent = 0;
+    renderTaskList();    
+});
